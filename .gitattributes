@@ -1,0 +1,46 @@
+# Auto detect
+*                 text=auto
+
+# Script
+*.bash            text eol=lf
+*.bat             text eol=crlf
+*.cmd             text eol=crlf
+*.sh              text eol=lf
+
+# Front-end file
+*.css             text
+*.htm             text diff=html
+*.html            text diff=html
+
+# Json Format
+*.json            text
+
+# Javascirpt
+*.js              text
+*.ts              text
+
+# Docker
+*.dockerignore    text
+Dockerfile        text
+
+# Documentation
+*.md              text
+license           text
+LICENSE           text
+*README*          text
+
+# Linters
+.eslintrc.js      text
+
+# Configs
+*.cnf             text
+*.conf            text
+*.config          text
+.editorconfig     text
+.env              text
+.gitattributes    text
+.gitconfig        text
+.prettierrc       text
+*.yaml            text
+*.yml             text
+Makefile          text
