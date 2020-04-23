@@ -1,16 +1,15 @@
 {
   "name": "typescript_express_starter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "typescript_express_starter",
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf ./dist && tsc -p .",
     "prerestart": "tsc --watch",
-    "start": "node dist/index.js",
+    "start": "ts-node src/index.ts",
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "nodemon src/index.ts",
-    "test": "jest --maxWorkers=2",
-    "test:watch": "jest --watch",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix"
   },
   "keywords": [
@@ -29,35 +28,20 @@
   "homepage": "https://github.com/libterty/Typescript-Express-Starter",
   "dependencies": {
     "express": "^4.17.1",
-    "typescript": "^3.8.2"
+    "pm2": "^4.3.1",
+    "ts-node": "6.2.0",
+    "typescript": "3.1.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.2",
+    "@types/express": "^4.17.6",
     "@types/node": "^13.7.6",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
-    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
-    "prettier": "^1.19.1",
-    "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
+    "prettier": "^2.0.5",
     "tsconfig-paths": "^3.9.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "test",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }
