@@ -1,8 +1,9 @@
 import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
 const app: express.Application = express();
-const port = process.env.PORT || 3000;
+const port: number | string = process.env.PORT || 3000;
 
-app.get('/', (req, res, next) => {
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('hello World!');
 });
 
