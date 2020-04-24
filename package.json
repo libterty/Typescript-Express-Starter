@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf ./dist && tsc -p .",
-    "postinall": "./node_modules/.bin/pm2 install typescript & ./node_modules/.bin/pm2 install ts-node & npm run start:prod",
+    "postinall": "./node_modules/.bin/pm2 install typescript & ./node_modules/.bin/pm2 install ts-node",
     "prerestart": "tsc --watch",
     "start": "ts-node src/index.ts",
     "start:prod": "./node_modules/.bin/pm2 start ecosystem.config.js --env production",
