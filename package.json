@@ -5,9 +5,10 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf ./dist && tsc -p .",
+    "postinall": "npm run build & npm run start:prod",
     "prerestart": "tsc --watch",
     "start": "ts-node src/index.ts",
-    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
+    "start:prod": "./node_modules/.bin/pm2 start ecosystem.config.js --env production",
     "start:dev": "nodemon src/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix"
