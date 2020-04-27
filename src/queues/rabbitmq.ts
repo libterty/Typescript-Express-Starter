@@ -1,52 +1,28 @@
-import * as amqp from 'amqplib';
-import { Channel, Connection, Options } from 'amqplib';
-import AssertQueue = Options.AssertQueue;
-let amqpConn: null = null;
-const amqpURL = process.env.CLOUDAMQP_URL || 'amqp://localhost:5627';
+import * as amqp from 'amqplib/callback_api';
+import { Channel, Connection, Message } from 'amqplib/callback_api';
 
-export class MessageQueue {
-  _url?: string;
-  _queues: Array<any>;
-  _prefetch?: number;
-  _connection?: Connection;
-  _channel?: Channel;
-  emit: any;
+const CONNECTION_URL: string = 'amqp://vrcttfts:H_tbtOMjjx46CtQcioQCsaXmpFyd8f4C@cougar.rmq.cloudamqp.com/vrcttfts' || 'amqp://localhost:5627';
+let ch = null;
 
-  public constructor(private host: string, private user: string, private password: string, public queues: Array<any>, public prefetch: number) {
-    this._url = amqpURL;
-    this._queues = queues || ['default'];
-    this._prefetch = prefetch;
-  }
+amqp.connect(CONNECTION_URL, (err?: string, connection?: Connection): void => {
+  connection.createChannel((err?: string, channel?: Channel): void => {
+    ch = channel
+    channel.consume('user-messages', (msg?: Message) => {
+      console.log('....');
 
-  public connect(): ReturnType<any> {
-    return amqp.connect(this._url)
-      .then(connection => (this._connection = connection).createChannel())
-      .then(channel => {
-        this._channel = channel;
-        channel.prefetch(this._prefetch);
-        let promises: any = [];
+      setTimeout((): void => {
+        console.log('Message', msg.content.toString());
+      }, 4000);
 
-        for (let queue of this._queues) {
-          promises.push(
-            channel
-              .assertQueue(queue, { durable: true })
-              .then((result: ReturnType<any>) => channel.consume(result.queue, (message: ReturnType<any>): void => {
-                if (message !== null) {
-                  this.emit('messageReceived', JSON.parse(message.content), result.queue, message);
-                }
-              }, { noAck: false }))
-          );
-        }
-        return Promise.all(promises);
-      })
-  }
+    }, { noAck: true })
+  });
+});
 
-  public send(queue: string, message) {
-    let messageBuffer = new Buffer(JSON.stringify(message));
+export const publishToQueue = async (queueName: string, data: any): Promise<void> => {
+  ch.sendToQueue(queueName, new Buffer(data));
+};
 
-    return this._channel
-        .assertQueue(queue, { durable: true})
-        .then(result => this._channel.sendToQueue(result.queue, messageBuffer, { persistent: true }));
-
-  }
-}
+// process.on('exit', (code: number): void => {
+//   ch.clo
+//   console.log(`Closing RabbitMQ Channel`);
+// });

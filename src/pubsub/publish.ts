@@ -1,14 +1,15 @@
-import { MessageQueue } from '../queues/rabbitmq';
+import { Request, Response } from 'express';
+import { QueueMessages } from '../interfaces';
+import { publishToQueue } from '../queues/rabbitmq';
 
-
-export class Publish {
-  _conn?: any;
-
-  public constructor() {
-    this._conn = new MessageQueue('localhost', '5627', '123', [], 1);
-  }
-
-  public addTask(queue: [], task: string): Promise<void> {
-    return this._conn.send(queue, task);
+export const publish = {
+  postMsg: async (req: Request, res: Response): Promise<any> => {
+    const _queues = req.body as QueueMessages;
+    await publishToQueue(_queues.queueNames, _queues.payload);
+    try {
+      return res.status(204);
+    } catch (error) {
+      return res.status(500).json({ status: false, onError: error.message });
+    }
   }
 }
