@@ -1,7 +1,9 @@
 import * as amqp from 'amqplib/callback_api';
 import { Channel, Connection, Message } from 'amqplib/callback_api';
+import { config } from 'dotenv';
+config();
 
-const CONNECTION_URL: string = 'amqp://vrcttfts:H_tbtOMjjx46CtQcioQCsaXmpFyd8f4C@cougar.rmq.cloudamqp.com/vrcttfts' || 'amqp://localhost:5627';
+const CONNECTION_URL: string = process.env.CONNECTION_URL || 'amqp://localhost:5627';
 let ch = null;
 
 amqp.connect(CONNECTION_URL, (err?: string, connection?: Connection): void => {
