@@ -1,6 +1,6 @@
 {
   "name": "typescript_express_starter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "typescript_express_starter",
   "main": "src/index.ts",
   "scripts": {
