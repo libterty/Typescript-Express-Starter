@@ -44,3 +44,10 @@ datadir/
 *.cnf
 *.conf
 *.config
+
+# Environment
+*.env
+*.*.env
+
+# logs
+*.log
